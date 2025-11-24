@@ -44,7 +44,15 @@ new p5((p)=>{
   const api = {
     toggleRun(){
       ensureAudio();
-      transport.running ? transport.stop() : transport.start();
+      if(transport.running){
+        transport.stop();
+      } else {
+        transport.start();
+        tracks.forEach(t=>{
+          t._lastPhase = undefined;
+          if(t.moon) t.moon._wasTouch = false;
+        });
+      }
       ui.startBtn.html(transport.running? "Stop":"Start");
     },
     setBpm(v){ transport.setBpm(v); },

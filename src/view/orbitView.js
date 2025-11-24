@@ -11,8 +11,7 @@ export function drawOrbits(p, tracks, activeTrack, selectedStep, bpm, T, running
 
     const omega = omegaForTrack(t, bpm);
     const phase = phaseAt(t, bpm, T);
-    const prevT = Math.max(0, T - 1/60);
-    const prevPhase = (omega*prevT + p.radians(t.orbitOffsetDeg||0))%(p.TWO_PI);
+    const prevPhase = (t._lastPhase ?? phase);
 
     if(running){
       for(let i=0;i<t.N;i++){
@@ -127,6 +126,7 @@ export function drawOrbits(p, tracks, activeTrack, selectedStep, bpm, T, running
         m._wasTouch = onCircle;
       }
     }
+    t._lastPhase = phase;
   });
 }
 
